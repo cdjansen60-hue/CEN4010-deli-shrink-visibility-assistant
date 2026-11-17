@@ -221,3 +221,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project: local SQLite stores and generated synthetic data
+*.db
+*.sqlite
+*.sqlite3
+data/generated/

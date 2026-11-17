@@ -1,0 +1,9 @@
+numpy
+pandas
+scikit-learn
+streamlit
+anthropic
+python-dotenv
+PyYAML
+holidays
+pytest
