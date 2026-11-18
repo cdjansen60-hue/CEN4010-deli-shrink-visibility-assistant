@@ -64,7 +64,7 @@ README.md (purpose, architecture summary, prerequisites, setup, configuration, r
 ## Commands (fill in as they are created)
 
 - Setup: `pip install -r requirements.txt`
-- Generate data: TBD
+- Generate data: `python -m src.generate_data --items 40 --weeks 26 --seed 42 --out data/generated` (writes feeds plus a `truth/` folder the pipeline must never read; `data/generated/` is gitignored)
 - Run pipeline: TBD
 - Run dashboard: `streamlit run app.py` (TBD)
 - Tests: `pytest`

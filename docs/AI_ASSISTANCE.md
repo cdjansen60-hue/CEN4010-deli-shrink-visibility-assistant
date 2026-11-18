@@ -7,7 +7,7 @@ Records material AI assistance: what was proposed, what was changed or rejected,
 - **Tool:** Claude Code (Sonnet 5.5)
 - **Proposed:** `.gitignore`, `.env.example`, `requirements.txt`, MIT `LICENSE`, `CONTRIBUTING.md`, this log, and the `src/` and `tests/` layout.
 - **Changed or rejected:** The AI overwrote the existing GitHub-generated `.gitignore` and `LICENSE` without checking them first. Both were restored from git. The original `.gitignore` template was kept, with four lines added (`*.db`, `*.sqlite`, `*.sqlite3`, `data/generated/`). The original `LICENSE` was kept unchanged. _(add anything else from your review)_
-- **Validated:** Nothing run yet. _(fill in, for example: `pip install -r requirements.txt` succeeds in a clean venv)_
+- **Validated:** `pip install -r requirements.txt` succeeded in a clean venv (run by me on 2026-11-18).
 - **Decisions made by me:** MIT license, `src/` layout.
 
 ## 2026-11-17: Synthetic data generator spec
@@ -17,3 +17,11 @@ Records material AI assistance: what was proposed, what was changed or rejected,
 - **Changed or rejected:** Nothing rejected. I set the holiday lifts (40% and 50%), the delivery cadence (4 to 6 days), and the defect counts (3 to 5), and left the other federal holidays with no effect for now. I accepted the rest of the proposals.
 - **Validated:** Nothing run. The spec is a design document. The values are starting points to tune against the backtest.
 - **Decisions made by me:** the `holidays` package as the holiday source, CSV feed files as the output format, the four event types, and the item count and history length.
+
+## 2026-11-18: Synthetic data generator (build step 1)
+
+- **Tool:** Claude Code (Sonnet 5.5)
+- **Proposed:** `src/generate_data.py` and `tests/test_generate_data.py`, written from `docs/synthetic-data-spec.md`. Choices the spec did not settle, made by the AI: the as-of date is the day after the last history day; the hand-placed S1 to S3 lots are received on the as-of morning; anchor items stop regular deliveries one shelf life before the end so the hand-placed lots are their only open stock (this leaves about 5 trailing zero-sales days for them); S3 demand set to 1.5 lb/day; events apply store-wide; malformed rows corrupt an existing row in place and log the original value in `truth/defects.csv`. Spec values are constants at the top of the file, not in a config file.
+- **Changed or rejected:** _(fill in after my review of the code)_
+- **Validated:** The 4 tests in `tests/test_generate_data.py` pass (same seed gives identical files, scenario lots match the spec, 3 to 5 of each defect type, at least 30 notes with the S3 note, lot accounting never negative). One default run (`--items 40 --weeks 26 --seed 42`) produced the expected files and the S1 to S3 lots. The AI ran these in a scratch venv with only numpy, holidays and pytest, not the full `requirements.txt`. Not yet checked: that the injected weekday, holiday and event effects are recoverable from the data, and whether the stockout rate (about 13% of item-days, mostly short-shelf-life items) suits the backtest.
+- **Decisions made by me:** _(fill in)_
